@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+// import { useState } from "react"
 import { Navigation } from "@/components/navigation"
 import { Button } from "@/components/custom/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/custom/card"
@@ -8,7 +8,7 @@ import { Badge } from "@/components/custom/badge"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/custom/dialog"
 import { ChevronLeft, ChevronRight, FileText, CheckCircle, Calendar, Users, Scale } from "lucide-react"
 import Link from "next/link"
-import PageTransition, { FadeInSection, SlideInCard } from "@/components/page-transition"
+import PageTransition from "@/components/page-transition"
 
 interface TimelineEvent {
   id: string
@@ -119,7 +119,7 @@ const policyPrinciples = [
 ]
 
 export default function PolicyPage() {
-  const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null)
+  // const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null)
 
   const getTypeIcon = (type: string) => {
     switch (type) {
@@ -217,7 +217,7 @@ export default function PolicyPage() {
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-border"></div>
 
             <div className="space-y-8">
-              {timelineEvents.map((event, index) => (
+              {timelineEvents.map((event) => (
                 <div key={event.id} className="relative flex items-start">
                   {/* Timeline dot */}
                   <div
@@ -252,7 +252,7 @@ export default function PolicyPage() {
                       <CardContent>
                         <p className="text-foreground mb-4">{event.description}</p>
                         <Dialog>
-                          <DialogTrigger asChild>
+                          <DialogTrigger>
                             <Button variant="outline" size="sm">
                               <FileText className="h-4 w-4 mr-2" />
                               Xem trích dẫn

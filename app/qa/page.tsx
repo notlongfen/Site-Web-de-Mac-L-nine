@@ -8,7 +8,7 @@ import { Badge } from "@/components/custom/badge"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/custom/collapsible"
 import { ChevronLeft, ChevronRight, ChevronDown, ChevronUp, FileText, ExternalLink, BookOpen } from "lucide-react"
 import Link from "next/link"
-import MotionWrapper, { MotionCard, MotionList, MotionListItem } from "@/components/motion-wrapper"
+// import MotionWrapper, { MotionCard, MotionList, MotionListItem } from "@/components/motion-wrapper"
 
 interface QAItem {
   id: string
@@ -170,7 +170,7 @@ export default function QAPage() {
             {questions.map((qa, index) => (
               <Card key={qa.id} className="overflow-hidden">
                 <Collapsible open={qa.isOpen} onOpenChange={() => toggleQuestion(qa.id)}>
-                  <CollapsibleTrigger asChild>
+                  <CollapsibleTrigger>
                     <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">

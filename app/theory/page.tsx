@@ -1,33 +1,47 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Navigation } from "@/components/navigation"
-import { Button } from "@/components/custom/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/custom/card"
-import { Badge } from "@/components/custom/badge"
-import { ChevronLeft, ChevronRight, CheckCircle, XCircle, RotateCcw } from "lucide-react"
-import Link from "next/link"
-import MotionWrapper, { MotionCard, MotionList, MotionListItem } from "@/components/motion-wrapper"
+import { useState } from "react";
+import { Navigation } from "@/components/navigation";
+import { Button } from "@/components/custom/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/custom/card";
+import { Badge } from "@/components/custom/badge";
+import {
+  ChevronLeft,
+  ChevronRight,
+  CheckCircle,
+  XCircle,
+  RotateCcw,
+} from "lucide-react";
+import Link from "next/link";
+import MotionWrapper, {
+  MotionCard,
+} from "@/components/motion-wrapper";
 
 interface Step {
-  id: number
-  title: string
-  content: string
-  details: string[]
+  id: number;
+  title: string;
+  content: string;
+  details: string[];
 }
 
 interface MythFact {
-  id: string
-  myth: string
-  fact: string
-  isRevealed: boolean
+  id: string;
+  myth: string;
+  fact: string;
+  isRevealed: boolean;
 }
 
 const theorySteps: Step[] = [
   {
     id: 1,
     title: "Nguồn gốc tôn giáo",
-    content: "Tôn giáo xuất hiện từ ba nguồn gốc chính theo quan điểm Mác-Lênin",
+    content:
+      "Tôn giáo xuất hiện từ ba nguồn gốc chính theo quan điểm Mác-Lênin",
     details: [
       "Nguồn gốc tự nhiên: Con người bất lực trước thiên nhiên, tạo ra niềm tin siêu nhiên",
       "Nguồn gốc xã hội: Áp bức giai cấp, bất công xã hội khiến người ta tìm đến tôn giáo",
@@ -37,7 +51,8 @@ const theorySteps: Step[] = [
   {
     id: 2,
     title: "Bản chất tôn giáo",
-    content: "Tôn giáo là một hình thái ý thức xã hội có hai mặt tích cực và tiêu cực",
+    content:
+      "Tôn giáo là một hình thái ý thức xã hội có hai mặt tích cực và tiêu cực",
     details: [
       "Là hình thái ý thức xã hội: Phản ánh điều kiện tồn tại xã hội của con người",
       "Mặt tích cực: Động viên tinh thần, kết nối cộng đồng, khuyến khích làm thiện",
@@ -47,7 +62,8 @@ const theorySteps: Step[] = [
   {
     id: 3,
     title: "Thái độ với tôn giáo",
-    content: "Mác-Lênin chủ trương tôn trọng tự do tín ngưỡng và phân biệt rõ ràng",
+    content:
+      "Mác-Lênin chủ trương tôn trọng tự do tín ngưỡng và phân biệt rõ ràng",
     details: [
       "Tôn trọng tự do tín ngưỡng: Mọi người có quyền tin hoặc không tin tôn giáo",
       "Phân biệt tín ngưỡng với chính trị: Không để tôn giáo can thiệp vào chính trị",
@@ -57,14 +73,15 @@ const theorySteps: Step[] = [
   {
     id: 4,
     title: "Con đường giải quyết",
-    content: "Tôn giáo sẽ tự giảm vai trò chi phối khi điều kiện xã hội thay đổi",
+    content:
+      "Tôn giáo sẽ tự giảm vai trò chi phối khi điều kiện xã hội thay đổi",
     details: [
       "Nâng cao đời sống: Cải thiện điều kiện kinh tế, xã hội của nhân dân",
       "Phát triển khoa học: Nâng cao trình độ dân trí, tư duy khoa học",
       "Phát triển văn hóa: Xây dựng nền văn hóa tiến bộ, nhân văn",
     ],
   },
-]
+];
 
 const mythsFacts: MythFact[] = [
   {
@@ -85,28 +102,32 @@ const mythsFacts: MythFact[] = [
     fact: "Tôn giáo có cả mặt tích cực (kết nối cộng đồng, động viên tinh thần) và tiêu cực (mê muội, phụ thuộc)",
     isRevealed: false,
   },
-]
+];
 
 export default function TheoryPage() {
-  const [currentStep, setCurrentStep] = useState(1)
-  const [completedSteps, setCompletedSteps] = useState<number[]>([])
-  const [myths, setMyths] = useState<MythFact[]>(mythsFacts)
+  const [currentStep, setCurrentStep] = useState(1);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [myths, setMyths] = useState<MythFact[]>(mythsFacts);
 
   const handleStepComplete = (stepId: number) => {
     if (!completedSteps.includes(stepId)) {
-      setCompletedSteps([...completedSteps, stepId])
+      setCompletedSteps([...completedSteps, stepId]);
     }
-  }
+  };
 
   const toggleMythFact = (mythId: string) => {
-    setMyths(myths.map((myth) => (myth.id === mythId ? { ...myth, isRevealed: !myth.isRevealed } : myth)))
-  }
+    setMyths(
+      myths.map((myth) =>
+        myth.id === mythId ? { ...myth, isRevealed: !myth.isRevealed } : myth
+      )
+    );
+  };
 
   const resetMyths = () => {
-    setMyths(mythsFacts.map((myth) => ({ ...myth, isRevealed: false })))
-  }
+    setMyths(mythsFacts.map((myth) => ({ ...myth, isRevealed: false })));
+  };
 
-  const currentStepData = theorySteps.find((step) => step.id === currentStep)
+  const currentStepData = theorySteps.find((step) => step.id === currentStep);
 
   return (
     <div className="min-h-screen bg-background">
@@ -116,9 +137,12 @@ export default function TheoryPage() {
       <section className="bg-gradient-to-r from-primary/10 to-accent/10 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <MotionWrapper className="text-center">
-            <h1 className="text-4xl font-heading font-black text-foreground mb-4">Lý thuyết nền tảng Mác-Lênin</h1>
+            <h1 className="text-4xl font-heading font-black text-foreground mb-4">
+              Lý thuyết nền tảng Mác-Lênin
+            </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Tìm hiểu quan điểm của Mác-Lênin về nguồn gốc, bản chất và cách giải quyết vấn đề tôn giáo
+              Tìm hiểu quan điểm của Mác-Lênin về nguồn gốc, bản chất và cách
+              giải quyết vấn đề tôn giáo
             </p>
           </MotionWrapper>
         </div>
@@ -129,7 +153,9 @@ export default function TheoryPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <MotionWrapper delay={0.2}>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-heading font-bold">Tiến trình học tập</h2>
+              <h2 className="text-lg font-heading font-bold">
+                Tiến trình học tập
+              </h2>
               <span className="text-sm text-muted-foreground">
                 {completedSteps.length}/{theorySteps.length} bước hoàn thành
               </span>
@@ -142,18 +168,28 @@ export default function TheoryPage() {
                       completedSteps.includes(step.id)
                         ? "bg-primary text-primary-foreground"
                         : currentStep === step.id
-                          ? "bg-accent text-accent-foreground"
-                          : "bg-muted text-muted-foreground"
+                        ? "bg-accent text-accent-foreground"
+                        : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    {completedSteps.includes(step.id) ? <CheckCircle className="h-4 w-4" /> : step.id}
+                    {completedSteps.includes(step.id) ? (
+                      <CheckCircle className="h-4 w-4" />
+                    ) : (
+                      step.id
+                    )}
                   </div>
                   {index < theorySteps.length - 1 && (
-                  <div className={`w-12 h-1 mx-2 ${completedSteps.includes(step.id) ? "bg-primary" : "bg-muted"}`} />
-                )}
-              </div>
-            ))}
-          </div>
+                    <div
+                      className={`w-12 h-1 mx-2 ${
+                        completedSteps.includes(step.id)
+                          ? "bg-primary"
+                          : "bg-muted"
+                      }`}
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
           </MotionWrapper>
         </div>
       </section>
@@ -169,51 +205,72 @@ export default function TheoryPage() {
                     <CardTitle className="text-2xl font-heading font-black text-primary">
                       Bước {currentStepData.id}: {currentStepData.title}
                     </CardTitle>
-                    <Badge variant={completedSteps.includes(currentStepData.id) ? "default" : "secondary"}>
-                    {completedSteps.includes(currentStepData.id) ? "Hoàn thành" : "Đang học"}
-                  </Badge>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <p className="text-lg text-foreground mb-6">{currentStepData.content}</p>
-                <div className="space-y-4">
-                  {currentStepData.details.map((detail, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-4 bg-muted rounded-lg">
-                      <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-semibold mt-0.5">
-                        {index + 1}
+                    <Badge
+                      variant={
+                        completedSteps.includes(currentStepData.id)
+                          ? "default"
+                          : "secondary"
+                      }
+                    >
+                      {completedSteps.includes(currentStepData.id)
+                        ? "Hoàn thành"
+                        : "Đang học"}
+                    </Badge>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-lg text-foreground mb-6">
+                    {currentStepData.content}
+                  </p>
+                  <div className="space-y-4">
+                    {currentStepData.details.map((detail, index) => (
+                      <div
+                        key={index}
+                        className="flex items-start space-x-3 p-4 bg-muted rounded-lg"
+                      >
+                        <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-primary-foreground text-sm font-semibold mt-0.5">
+                          {index + 1}
+                        </div>
+                        <p className="text-foreground flex-1">{detail}</p>
                       </div>
-                      <p className="text-foreground flex-1">{detail}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex justify-between items-center mt-8">
-                  <Button
-                    variant="outline"
-                    onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
-                    disabled={currentStep === 1}
-                  >
-                    <ChevronLeft className="h-4 w-4 mr-2" />
-                    Bước trước
-                  </Button>
+                    ))}
+                  </div>
+                  <div className="flex justify-between items-center mt-8">
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        setCurrentStep(Math.max(1, currentStep - 1))
+                      }
+                      disabled={currentStep === 1}
+                    >
+                      <ChevronLeft className="h-4 w-4 mr-2" />
+                      Bước trước
+                    </Button>
 
-                  <Button
-                    onClick={() => handleStepComplete(currentStepData.id)}
-                    disabled={completedSteps.includes(currentStepData.id)}
-                  >
-                    {completedSteps.includes(currentStepData.id) ? "Đã hoàn thành" : "Hoàn thành bước này"}
-                  </Button>
+                    <Button
+                      onClick={() => handleStepComplete(currentStepData.id)}
+                      disabled={completedSteps.includes(currentStepData.id)}
+                    >
+                      {completedSteps.includes(currentStepData.id)
+                        ? "Đã hoàn thành"
+                        : "Hoàn thành bước này"}
+                    </Button>
 
-                  <Button
-                    variant="outline"
-                    onClick={() => setCurrentStep(Math.min(theorySteps.length, currentStep + 1))}
-                    disabled={currentStep === theorySteps.length}
-                  >
-                    Bước tiếp
-                    <ChevronRight className="h-4 w-4 ml-2" />
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+                    <Button
+                      variant="outline"
+                      onClick={() =>
+                        setCurrentStep(
+                          Math.min(theorySteps.length, currentStep + 1)
+                        )
+                      }
+                      disabled={currentStep === theorySteps.length}
+                    >
+                      Bước tiếp
+                      <ChevronRight className="h-4 w-4 ml-2" />
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
             </MotionCard>
           )}
         </div>
@@ -223,14 +280,17 @@ export default function TheoryPage() {
       <section className="py-12 bg-card">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-heading font-black text-foreground">Ngộ nhận vs Sự thật</h2>
+            <h2 className="text-3xl font-heading font-black text-foreground">
+              Ngộ nhận vs Sự thật
+            </h2>
             <Button variant="outline" size="sm" onClick={resetMyths}>
               <RotateCcw className="h-4 w-4 mr-2" />
               Đặt lại
             </Button>
           </div>
           <p className="text-muted-foreground mb-8">
-            Nhấp vào các thẻ để khám phá sự thật đằng sau những ngộ nhận phổ biến
+            Nhấp vào các thẻ để khám phá sự thật đằng sau những ngộ nhận phổ
+            biến
           </p>
 
           <div className="grid gap-6">
@@ -242,7 +302,11 @@ export default function TheoryPage() {
               >
                 <CardContent className="p-6">
                   <div className="flex items-start space-x-4">
-                    <div className={`p-2 rounded-full ${item.isRevealed ? "bg-primary" : "bg-destructive"}`}>
+                    <div
+                      className={`p-2 rounded-full ${
+                        item.isRevealed ? "bg-primary" : "bg-destructive"
+                      }`}
+                    >
                       {item.isRevealed ? (
                         <CheckCircle className="h-5 w-5 text-primary-foreground" />
                       ) : (
@@ -251,11 +315,15 @@ export default function TheoryPage() {
                     </div>
                     <div className="flex-1">
                       <div className="flex items-center space-x-2 mb-2">
-                        <Badge variant={item.isRevealed ? "default" : "destructive"}>
+                        <Badge
+                          variant={item.isRevealed ? "default" : "destructive"}
+                        >
                           {item.isRevealed ? "Sự thật" : "Ngộ nhận"}
                         </Badge>
                       </div>
-                      <p className="text-foreground font-medium">{item.isRevealed ? item.fact : item.myth}</p>
+                      <p className="text-foreground font-medium">
+                        {item.isRevealed ? item.fact : item.myth}
+                      </p>
                     </div>
                   </div>
                 </CardContent>
@@ -285,5 +353,5 @@ export default function TheoryPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

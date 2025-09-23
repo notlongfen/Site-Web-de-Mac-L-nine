@@ -1,50 +1,69 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Navigation } from "@/components/navigation"
-import { Button } from "@/components/custom/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/custom/card"
-import { Progress } from "@/components/custom/progress"
-import { ChevronRight, Users, BookOpen, Globe, Target } from "lucide-react"
-import Link from "next/link"
-import MotionWrapper, { MotionCard, MotionList, MotionListItem } from "@/components/motion-wrapper"
+import { useState, useEffect } from "react";
+import { Navigation } from "@/components/navigation";
+import { Button } from "@/components/custom/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/custom/card";
+import { Progress } from "@/components/custom/progress";
+import { ChevronRight, Users, BookOpen, Globe, Target } from "lucide-react";
+import Link from "next/link";
+import MotionWrapper, {
+  MotionCard,
+  MotionList,
+  MotionListItem,
+} from "@/components/motion-wrapper";
 
 interface PollOption {
-  id: string
-  text: string
-  votes: number
+  id: string;
+  text: string;
+  votes: number;
 }
 
 export default function HomePage() {
-  const [selectedOption, setSelectedOption] = useState<string | null>(null)
-  const [showResults, setShowResults] = useState(false)
-  const [timeLeft, setTimeLeft] = useState(15)
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const [showResults, setShowResults] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(15);
   const [pollOptions, setPollOptions] = useState<PollOption[]>([
-    { id: "yes", text: "Có, Mác-Lênin chủ trương xóa bỏ hoàn toàn tôn giáo", votes: 0 },
+    {
+      id: "yes",
+      text: "Có, Mác-Lênin chủ trương xóa bỏ hoàn toàn tôn giáo",
+      votes: 0,
+    },
     { id: "no", text: "Không, Mác-Lênin tôn trọng tự do tín ngưỡng", votes: 0 },
-    { id: "partial", text: "Một phần, tùy thuộc vào điều kiện xã hội", votes: 0 },
-  ])
+    {
+      id: "partial",
+      text: "Một phần, tùy thuộc vào điều kiện xã hội",
+      votes: 0,
+    },
+  ]);
 
   useEffect(() => {
     if (timeLeft > 0 && !showResults) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
-      return () => clearTimeout(timer)
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timer);
     } else if (timeLeft === 0 && !showResults) {
-      setShowResults(true)
+      setShowResults(true);
     }
-  }, [timeLeft, showResults])
+  }, [timeLeft, showResults]);
 
   const handleVote = (optionId: string) => {
-    if (selectedOption || showResults) return
+    if (selectedOption || showResults) return;
 
-    setSelectedOption(optionId)
+    setSelectedOption(optionId);
     setPollOptions((prev) =>
-      prev.map((option) => (option.id === optionId ? { ...option, votes: option.votes + 1 } : option)),
-    )
-    setShowResults(true)
-  }
+      prev.map((option) =>
+        option.id === optionId ? { ...option, votes: option.votes + 1 } : option
+      )
+    );
+    setShowResults(true);
+  };
 
-  const totalVotes = pollOptions.reduce((sum, option) => sum + option.votes, 0)
+  const totalVotes = pollOptions.reduce((sum, option) => sum + option.votes, 0);
 
   return (
     <div className="min-h-screen bg-background">
@@ -55,11 +74,12 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <MotionWrapper className="text-center">
             <h1 className="text-4xl md:text-6xl font-heading font-black text-foreground mb-6 text-balance">
-              Tôn giáo trong Lý thuyết <span className="text-primary">Mác-Lênin</span>
+              Tôn giáo trong Lý thuyết{" "}
+              <span className="text-primary">Mác-Lênin</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto text-pretty">
-              Khám phá quan điểm của chủ nghĩa Mác-Lênin về tôn giáo và chính sách tôn giáo của Việt Nam trong thời đại
-              mới
+              Khám phá quan điểm của chủ nghĩa Mác-Lênin về tôn giáo và chính
+              sách tôn giáo của Việt Nam trong thời đại mới
             </p>
             <Link href="/theory">
               <Button size="lg" className="text-lg px-8 py-6">
@@ -81,7 +101,8 @@ export default function HomePage() {
                   Khảo sát nhanh - {timeLeft > 0 ? `${timeLeft}s` : "Kết thúc"}
                 </CardTitle>
                 <p className="text-muted-foreground">
-                  Theo bạn, Chủ nghĩa Mác-Lênin có chủ trương xóa bỏ tôn giáo không?
+                  Theo bạn, Chủ nghĩa Mác-Lênin có chủ trương xóa bỏ tôn giáo
+                  không?
                 </p>
               </CardHeader>
               <CardContent>
@@ -89,7 +110,9 @@ export default function HomePage() {
                   {pollOptions.map((option) => (
                     <MotionListItem key={option.id} className="relative">
                       <Button
-                        variant={selectedOption === option.id ? "default" : "outline"}
+                        variant={
+                          selectedOption === option.id ? "default" : "outline"
+                        }
                         className="w-full text-left justify-start p-4 h-auto"
                         onClick={() => handleVote(option.id)}
                         disabled={showResults}
@@ -97,22 +120,36 @@ export default function HomePage() {
                         <span className="flex-1">{option.text}</span>
                         {showResults && (
                           <span className="ml-2 font-semibold">
-                            {totalVotes > 0 ? Math.round((option.votes / totalVotes) * 100) : 0}%
+                            {totalVotes > 0
+                              ? Math.round((option.votes / totalVotes) * 100)
+                              : 0}
+                            %
                           </span>
                         )}
                       </Button>
                       {showResults && (
-                        <Progress value={totalVotes > 0 ? (option.votes / totalVotes) * 100 : 0} className="mt-2 h-2" />
+                        <Progress
+                          value={
+                            totalVotes > 0
+                              ? (option.votes / totalVotes) * 100
+                              : 0
+                          }
+                          className="mt-2 h-2"
+                        />
                       )}
                     </MotionListItem>
                   ))}
                 </MotionList>
 
                 {showResults && (
-                  <MotionWrapper delay={0.5} className="mt-6 p-4 bg-muted rounded-lg">
+                  <MotionWrapper
+                    delay={0.5}
+                    className="mt-6 p-4 bg-muted rounded-lg"
+                  >
                     <p className="text-sm text-muted-foreground text-center">
                       <Users className="inline h-4 w-4 mr-1" />
-                      Tổng số phiếu: {totalVotes} | Khám phá câu trả lời chính xác trong phần lý thuyết
+                      Tổng số phiếu: {totalVotes} | Khám phá câu trả lời chính
+                      xác trong phần lý thuyết
                     </p>
                   </MotionWrapper>
                 )}
@@ -126,7 +163,9 @@ export default function HomePage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <MotionWrapper delay={0.3} className="text-center mb-12">
-            <h2 className="text-3xl font-heading font-black text-foreground mb-4">Nội dung chính</h2>
+            <h2 className="text-3xl font-heading font-black text-foreground mb-4">
+              Nội dung chính
+            </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Tìm hiểu toàn diện về quan điểm Mác-Lênin và thực tiễn Việt Nam
             </p>
@@ -137,7 +176,9 @@ export default function HomePage() {
               <Card className="hover:shadow-lg transition-shadow h-full">
                 <CardHeader className="text-center">
                   <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-lg font-heading">Lý thuyết nền tảng</CardTitle>
+                  <CardTitle className="text-lg font-heading">
+                    Lý thuyết nền tảng
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground text-center">
@@ -151,11 +192,14 @@ export default function HomePage() {
               <Card className="hover:shadow-lg transition-shadow h-full">
                 <CardHeader className="text-center">
                   <Globe className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-lg font-heading">Chính sách Việt Nam</CardTitle>
+                  <CardTitle className="text-lg font-heading">
+                    Chính sách Việt Nam
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground text-center">
-                    Hiến pháp 2013, Luật Tín ngưỡng Tôn giáo 2016 và văn kiện Đảng
+                    Hiến pháp 2013, Luật Tín ngưỡng Tôn giáo 2016 và văn kiện
+                    Đảng
                   </p>
                 </CardContent>
               </Card>
@@ -165,7 +209,9 @@ export default function HomePage() {
               <Card className="hover:shadow-lg transition-shadow h-full">
                 <CardHeader className="text-center">
                   <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-lg font-heading">Thực tiễn hòa hợp</CardTitle>
+                  <CardTitle className="text-lg font-heading">
+                    Thực tiễn hòa hợp
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground text-center">
@@ -179,7 +225,9 @@ export default function HomePage() {
               <Card className="hover:shadow-lg transition-shadow h-full">
                 <CardHeader className="text-center">
                   <Target className="h-12 w-12 text-primary mx-auto mb-4" />
-                  <CardTitle className="text-lg font-heading">Giải pháp định hướng</CardTitle>
+                  <CardTitle className="text-lg font-heading">
+                    Giải pháp định hướng
+                  </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground text-center">
@@ -196,10 +244,18 @@ export default function HomePage() {
       <section className="py-16 bg-primary text-primary-foreground">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <MotionWrapper delay={0.6}>
-            <h2 className="text-3xl font-heading font-black mb-4">Sẵn sàng khám phá?</h2>
-            <p className="text-xl mb-8 opacity-90">Bắt đầu hành trình tìm hiểu về tôn giáo trong lý thuyết Mác-Lênin</p>
+            <h2 className="text-3xl font-heading font-black mb-4">
+              Sẵn sàng khám phá?
+            </h2>
+            <p className="text-xl mb-8 opacity-90">
+              Bắt đầu hành trình tìm hiểu về tôn giáo trong lý thuyết Mác-Lênin
+            </p>
             <Link href="/theory">
-              <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
+              <Button
+                size="lg"
+                variant="secondary"
+                className="text-lg px-8 py-6"
+              >
                 Bắt đầu ngay
                 <ChevronRight className="ml-2 h-5 w-5" />
               </Button>
@@ -208,5 +264,5 @@ export default function HomePage() {
         </div>
       </section>
     </div>
-  )
+  );
 }

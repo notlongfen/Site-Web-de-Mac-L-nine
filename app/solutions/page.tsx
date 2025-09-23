@@ -1,39 +1,53 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Navigation } from "@/components/navigation"
-import { Button } from "@/components/custom/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/custom/card"
-import { Badge } from "@/components/custom/badge"
-import { ChevronLeft, ChevronRight, Scale, Users, Shield, Download, Clock, Target } from "lucide-react"
-import Link from "next/link"
-import PageTransition from "@/components/page-transition"
+import { useState } from "react";
+import { Navigation } from "@/components/navigation";
+import { Button } from "@/components/custom/button";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/custom/card";
+import { Badge } from "@/components/custom/badge";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Scale,
+  Users,
+  Shield,
+  Download,
+  Clock,
+  Target,
+} from "lucide-react";
+import Link from "next/link";
 
 interface Solution {
-  id: string
-  title: string
-  description: string
-  category: "legal" | "social" | "security"
-  priority: "high" | "medium" | "low"
-  timeframe: string
-  isPlaced: boolean
+  id: string;
+  title: string;
+  description: string;
+  category: "legal" | "social" | "security";
+  priority: "high" | "medium" | "low";
+  timeframe: string;
+  isPlaced: boolean;
 }
 
 interface Column {
-  id: "legal" | "social" | "security"
-  title: string
-  icon: any
-  color: string
-  solutions: Solution[]
+  id: "legal" | "social" | "security";
+  title: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  solutions: Solution[];
 }
 
 const availableSolutions: Solution[] = [
   {
     id: "complete-law",
     title: "Hoàn thiện pháp luật tôn giáo",
-    description: "Xây dựng, bổ sung các văn bản pháp luật về tôn giáo phù hợp với thực tiễn",
+    description:
+      "Xây dựng, bổ sung các văn bản pháp luật về tôn giáo phù hợp với thực tiễn",
     category: "legal",
     priority: "high",
     timeframe: "2024-2026",
@@ -42,7 +56,8 @@ const availableSolutions: Solution[] = [
   {
     id: "education-propaganda",
     title: "Giáo dục - tuyên truyền chuẩn",
-    description: "Nâng cao nhận thức về chính sách tôn giáo cho cán bộ và nhân dân",
+    description:
+      "Nâng cao nhận thức về chính sách tôn giáo cho cán bộ và nhân dân",
     category: "social",
     priority: "high",
     timeframe: "Liên tục",
@@ -51,7 +66,8 @@ const availableSolutions: Solution[] = [
   {
     id: "interfaith-dialogue",
     title: "Đối thoại liên tôn",
-    description: "Tăng cường đối thoại, hợp tác giữa các tôn giáo và với Nhà nước",
+    description:
+      "Tăng cường đối thoại, hợp tác giữa các tôn giáo và với Nhà nước",
     category: "social",
     priority: "medium",
     timeframe: "Thường xuyên",
@@ -78,7 +94,8 @@ const availableSolutions: Solution[] = [
   {
     id: "connect-sdg",
     title: "Kết nối với mục tiêu phát triển bền vững",
-    description: "Liên kết hoạt động tôn giáo với các mục tiêu phát triển bền vững",
+    description:
+      "Liên kết hoạt động tôn giáo với các mục tiêu phát triển bền vững",
     category: "social",
     priority: "medium",
     timeframe: "2024-2030",
@@ -102,12 +119,12 @@ const availableSolutions: Solution[] = [
     timeframe: "2024-2026",
     isPlaced: false,
   },
-]
+];
 
 export default function SolutionsPage() {
-  const [solutions, setSolutions] = useState<Solution[]>(availableSolutions)
-  const [discussionTime, setDiscussionTime] = useState(30)
-  const [isDiscussionActive, setIsDiscussionActive] = useState(false)
+  const [solutions, setSolutions] = useState<Solution[]>(availableSolutions);
+  const [discussionTime, setDiscussionTime] = useState(30);
+  const [isDiscussionActive, setIsDiscussionActive] = useState(false);
 
   const [columns, setColumns] = useState<Column[]>([
     {
@@ -131,100 +148,121 @@ export default function SolutionsPage() {
       color: "bg-chart-3",
       solutions: [],
     },
-  ])
+  ]);
 
   const handleDragStart = (e: React.DragEvent, solutionId: string) => {
-    e.dataTransfer.setData("text/plain", solutionId)
-  }
+    e.dataTransfer.setData("text/plain", solutionId);
+  };
 
   const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+  };
 
-  const handleDrop = (e: React.DragEvent, columnId: "legal" | "social" | "security") => {
-    e.preventDefault()
-    const solutionId = e.dataTransfer.getData("text/plain")
-    const solution = solutions.find((s) => s.id === solutionId)
+  const handleDrop = (
+    e: React.DragEvent,
+    columnId: "legal" | "social" | "security"
+  ) => {
+    e.preventDefault();
+    const solutionId = e.dataTransfer.getData("text/plain");
+    const solution = solutions.find((s) => s.id === solutionId);
 
     if (solution && !solution.isPlaced) {
       // Move solution to column
-      setSolutions((prev) => prev.map((s) => (s.id === solutionId ? { ...s, isPlaced: true } : s)))
+      setSolutions((prev) =>
+        prev.map((s) => (s.id === solutionId ? { ...s, isPlaced: true } : s))
+      );
 
       setColumns((prev) =>
-        prev.map((col) => (col.id === columnId ? { ...col, solutions: [...col.solutions, solution] } : col)),
-      )
+        prev.map((col) =>
+          col.id === columnId
+            ? { ...col, solutions: [...col.solutions, solution] }
+            : col
+        )
+      );
     }
-  }
+  };
 
-  const removeSolutionFromColumn = (solutionId: string, columnId: "legal" | "social" | "security") => {
+  const removeSolutionFromColumn = (
+    solutionId: string,
+    columnId: "legal" | "social" | "security"
+  ) => {
     // Remove from column
     setColumns((prev) =>
       prev.map((col) =>
-        col.id === columnId ? { ...col, solutions: col.solutions.filter((s) => s.id !== solutionId) } : col,
-      ),
-    )
+        col.id === columnId
+          ? {
+              ...col,
+              solutions: col.solutions.filter((s) => s.id !== solutionId),
+            }
+          : col
+      )
+    );
 
     // Make available again
-    setSolutions((prev) => prev.map((s) => (s.id === solutionId ? { ...s, isPlaced: false } : s)))
-  }
+    setSolutions((prev) =>
+      prev.map((s) => (s.id === solutionId ? { ...s, isPlaced: false } : s))
+    );
+  };
 
   const startDiscussion = () => {
-    setIsDiscussionActive(true)
+    setIsDiscussionActive(true);
     const timer = setInterval(() => {
       setDiscussionTime((prev) => {
         if (prev <= 1) {
-          clearInterval(timer)
-          setIsDiscussionActive(false)
-          return 30
+          clearInterval(timer);
+          setIsDiscussionActive(false);
+          return 30;
         }
-        return prev - 1
-      })
-    }, 1000)
-  }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
   const generatePDF = () => {
-    const allPlacedSolutions = columns.flatMap((col) => col.solutions)
+    // const allPlacedSolutions = columns.flatMap((col) => col.solutions);
     const pdfContent = {
       legal: columns.find((c) => c.id === "legal")?.solutions || [],
       social: columns.find((c) => c.id === "social")?.solutions || [],
       security: columns.find((c) => c.id === "security")?.solutions || [],
-    }
+    };
 
     // Simulate PDF generation
-    const blob = new Blob([JSON.stringify(pdfContent, null, 2)], { type: "application/json" })
-    const url = URL.createObjectURL(blob)
-    const a = document.createElement("a")
-    a.href = url
-    a.download = "giai-phap-ton-giao.json"
-    a.click()
-    URL.revokeObjectURL(url)
-  }
+    const blob = new Blob([JSON.stringify(pdfContent, null, 2)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "giai-phap-ton-giao.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const getPriorityColor = (priority: string) => {
     switch (priority) {
       case "high":
-        return "bg-destructive"
+        return "bg-destructive";
       case "medium":
-        return "bg-accent"
+        return "bg-accent";
       case "low":
-        return "bg-muted"
+        return "bg-muted";
       default:
-        return "bg-muted"
+        return "bg-muted";
     }
-  }
+  };
 
   const getPriorityLabel = (priority: string) => {
     switch (priority) {
       case "high":
-        return "Cao"
+        return "Cao";
       case "medium":
-        return "Trung bình"
+        return "Trung bình";
       case "low":
-        return "Thấp"
+        return "Thấp";
       default:
-        return "Không xác định"
+        return "Không xác định";
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -234,9 +272,12 @@ export default function SolutionsPage() {
       <section className="bg-gradient-to-r from-primary/10 to-accent/10 py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl font-heading font-black text-foreground mb-4">Giải pháp định hướng</h1>
+            <h1 className="text-4xl font-heading font-black text-foreground mb-4">
+              Giải pháp định hướng
+            </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Workshop tương tác: Sắp xếp và thảo luận các giải pháp cho công tác tôn giáo
+              Workshop tương tác: Sắp xếp và thảo luận các giải pháp cho công
+              tác tôn giáo
             </p>
           </div>
         </div>
@@ -247,9 +288,17 @@ export default function SolutionsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <div className="flex items-center space-x-4">
-              <Button onClick={startDiscussion} disabled={isDiscussionActive} className="flex items-center space-x-2">
+              <Button
+                onClick={startDiscussion}
+                disabled={isDiscussionActive}
+                className="flex items-center space-x-2"
+              >
                 <Clock className="h-4 w-4" />
-                <span>{isDiscussionActive ? `Thảo luận: ${discussionTime}s` : "Bắt đầu thảo luận"}</span>
+                <span>
+                  {isDiscussionActive
+                    ? `Thảo luận: ${discussionTime}s`
+                    : "Bắt đầu thảo luận"}
+                </span>
               </Button>
 
               <Badge variant={isDiscussionActive ? "default" : "secondary"}>
@@ -268,8 +317,12 @@ export default function SolutionsPage() {
       {/* Available Solutions */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-foreground mb-6">Giải pháp có sẵn</h2>
-          <p className="text-muted-foreground mb-6">Kéo và thả các giải pháp vào cột phù hợp bên dưới</p>
+          <h2 className="text-2xl font-heading font-black text-foreground mb-6">
+            Giải pháp có sẵn
+          </h2>
+          <p className="text-muted-foreground mb-6">
+            Kéo và thả các giải pháp vào cột phù hợp bên dưới
+          </p>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             {solutions
@@ -283,15 +336,23 @@ export default function SolutionsPage() {
                 >
                   <CardContent className="p-4">
                     <div className="flex items-center justify-between mb-2">
-                      <Badge className={`${getPriorityColor(solution.priority)} text-white`}>
+                      <Badge
+                        className={`${getPriorityColor(
+                          solution.priority
+                        )} text-white`}
+                      >
                         {getPriorityLabel(solution.priority)}
                       </Badge>
                       <Badge variant="outline" className="text-xs">
                         {solution.timeframe}
                       </Badge>
                     </div>
-                    <h3 className="font-heading font-bold text-sm text-foreground mb-2">{solution.title}</h3>
-                    <p className="text-xs text-muted-foreground">{solution.description}</p>
+                    <h3 className="font-heading font-bold text-sm text-foreground mb-2">
+                      {solution.title}
+                    </h3>
+                    <p className="text-xs text-muted-foreground">
+                      {solution.description}
+                    </p>
                   </CardContent>
                 </Card>
               ))}
@@ -302,7 +363,9 @@ export default function SolutionsPage() {
       {/* Kanban Board */}
       <section className="py-12 bg-card">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-foreground mb-6">Bảng phân loại giải pháp</h2>
+          <h2 className="text-2xl font-heading font-black text-foreground mb-6">
+            Bảng phân loại giải pháp
+          </h2>
 
           <div className="grid lg:grid-cols-3 gap-6">
             {columns.map((column) => (
@@ -327,18 +390,28 @@ export default function SolutionsPage() {
                         <Card key={solution.id} className="relative group">
                           <CardContent className="p-3">
                             <button
-                              onClick={() => removeSolutionFromColumn(solution.id, column.id)}
+                              onClick={() =>
+                                removeSolutionFromColumn(solution.id, column.id)
+                              }
                               className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
                             >
                               ×
                             </button>
                             <div className="flex items-center justify-between mb-2">
-                              <Badge className={`${getPriorityColor(solution.priority)} text-white text-xs`}>
+                              <Badge
+                                className={`${getPriorityColor(
+                                  solution.priority
+                                )} text-white text-xs`}
+                              >
                                 {getPriorityLabel(solution.priority)}
                               </Badge>
                             </div>
-                            <h4 className="font-semibold text-sm text-foreground mb-1">{solution.title}</h4>
-                            <p className="text-xs text-muted-foreground">{solution.description}</p>
+                            <h4 className="font-semibold text-sm text-foreground mb-1">
+                              {solution.title}
+                            </h4>
+                            <p className="text-xs text-muted-foreground">
+                              {solution.description}
+                            </p>
                             <div className="mt-2">
                               <Badge variant="outline" className="text-xs">
                                 {solution.timeframe}
@@ -366,7 +439,9 @@ export default function SolutionsPage() {
       {/* Summary Statistics */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-center text-foreground mb-8">Thống kê phân loại</h2>
+          <h2 className="text-2xl font-heading font-black text-center text-foreground mb-8">
+            Thống kê phân loại
+          </h2>
 
           <div className="grid md:grid-cols-4 gap-6">
             <Card className="text-center">
@@ -374,15 +449,21 @@ export default function SolutionsPage() {
                 <div className="text-3xl font-black text-primary mb-2">
                   {columns.reduce((sum, col) => sum + col.solutions.length, 0)}
                 </div>
-                <p className="text-sm text-muted-foreground">Tổng giải pháp đã phân loại</p>
+                <p className="text-sm text-muted-foreground">
+                  Tổng giải pháp đã phân loại
+                </p>
               </CardContent>
             </Card>
 
             {columns.map((column) => (
               <Card key={column.id} className="text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-black text-primary mb-2">{column.solutions.length}</div>
-                  <p className="text-sm text-muted-foreground">{column.title}</p>
+                  <div className="text-3xl font-black text-primary mb-2">
+                    {column.solutions.length}
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    {column.title}
+                  </p>
                 </CardContent>
               </Card>
             ))}
@@ -393,13 +474,17 @@ export default function SolutionsPage() {
       {/* Key Principles */}
       <section className="py-12 bg-card">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-center text-foreground mb-8">Nguyên tắc chỉ đạo</h2>
+          <h2 className="text-2xl font-heading font-black text-center text-foreground mb-8">
+            Nguyên tắc chỉ đạo
+          </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
             <Card className="text-center">
               <CardContent className="pt-6">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-black text-primary">Tôn trọng</span>
+                  <span className="text-2xl font-black text-primary">
+                    Tôn trọng
+                  </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Tôn trọng quyền tự do tín ngưỡng, tôn giáo của mọi công dân
@@ -410,10 +495,13 @@ export default function SolutionsPage() {
             <Card className="text-center">
               <CardContent className="pt-6">
                 <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-black text-accent">Phát huy</span>
+                  <span className="text-2xl font-black text-accent">
+                    Phát huy
+                  </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
-                  Phát huy những giá trị tích cực của tôn giáo trong đời sống xã hội
+                  Phát huy những giá trị tích cực của tôn giáo trong đời sống xã
+                  hội
                 </p>
               </CardContent>
             </Card>
@@ -421,7 +509,9 @@ export default function SolutionsPage() {
             <Card className="text-center">
               <CardContent className="pt-6">
                 <div className="w-16 h-16 bg-chart-3/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-black text-chart-3">Đấu tranh</span>
+                  <span className="text-2xl font-black text-chart-3">
+                    Đấu tranh
+                  </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Đấu tranh chống lợi dụng tôn giáo để chống phá Đảng, Nhà nước
@@ -452,5 +542,5 @@ export default function SolutionsPage() {
         </div>
       </section>
     </div>
-  )
+  );
 }
