@@ -1,101 +1,212 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState, useEffect } from "react"
+import { Navigation } from "@/components/navigation"
+import { Button } from "@/components/custom/button"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/custom/card"
+import { Progress } from "@/components/custom/progress"
+import { ChevronRight, Users, BookOpen, Globe, Target } from "lucide-react"
+import Link from "next/link"
+import MotionWrapper, { MotionCard, MotionList, MotionListItem } from "@/components/motion-wrapper"
+
+interface PollOption {
+  id: string
+  text: string
+  votes: number
+}
+
+export default function HomePage() {
+  const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [showResults, setShowResults] = useState(false)
+  const [timeLeft, setTimeLeft] = useState(15)
+  const [pollOptions, setPollOptions] = useState<PollOption[]>([
+    { id: "yes", text: "Có, Mác-Lênin chủ trương xóa bỏ hoàn toàn tôn giáo", votes: 0 },
+    { id: "no", text: "Không, Mác-Lênin tôn trọng tự do tín ngưỡng", votes: 0 },
+    { id: "partial", text: "Một phần, tùy thuộc vào điều kiện xã hội", votes: 0 },
+  ])
+
+  useEffect(() => {
+    if (timeLeft > 0 && !showResults) {
+      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000)
+      return () => clearTimeout(timer)
+    } else if (timeLeft === 0 && !showResults) {
+      setShowResults(true)
+    }
+  }, [timeLeft, showResults])
+
+  const handleVote = (optionId: string) => {
+    if (selectedOption || showResults) return
+
+    setSelectedOption(optionId)
+    setPollOptions((prev) =>
+      prev.map((option) => (option.id === optionId ? { ...option, votes: option.votes + 1 } : option)),
+    )
+    setShowResults(true)
+  }
+
+  const totalVotes = pollOptions.reduce((sum, option) => sum + option.votes, 0)
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="min-h-screen bg-background">
+      <Navigation />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-primary/10 via-background to-accent/5 py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <MotionWrapper className="text-center">
+            <h1 className="text-4xl md:text-6xl font-heading font-black text-foreground mb-6 text-balance">
+              Tôn giáo trong Lý thuyết <span className="text-primary">Mác-Lênin</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto text-pretty">
+              Khám phá quan điểm của chủ nghĩa Mác-Lênin về tôn giáo và chính sách tôn giáo của Việt Nam trong thời đại
+              mới
+            </p>
+            <Link href="/theory">
+              <Button size="lg" className="text-lg px-8 py-6">
+                Bắt đầu khám phá
+                <ChevronRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </MotionWrapper>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </section>
+
+      {/* Live Poll Section */}
+      <section className="py-16 bg-card">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <MotionWrapper delay={0.2}>
+            <Card className="border-2 border-primary/20">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl font-heading font-black text-primary mb-2">
+                  Khảo sát nhanh - {timeLeft > 0 ? `${timeLeft}s` : "Kết thúc"}
+                </CardTitle>
+                <p className="text-muted-foreground">
+                  Theo bạn, Chủ nghĩa Mác-Lênin có chủ trương xóa bỏ tôn giáo không?
+                </p>
+              </CardHeader>
+              <CardContent>
+                <MotionList className="space-y-4">
+                  {pollOptions.map((option) => (
+                    <MotionListItem key={option.id} className="relative">
+                      <Button
+                        variant={selectedOption === option.id ? "default" : "outline"}
+                        className="w-full text-left justify-start p-4 h-auto"
+                        onClick={() => handleVote(option.id)}
+                        disabled={showResults}
+                      >
+                        <span className="flex-1">{option.text}</span>
+                        {showResults && (
+                          <span className="ml-2 font-semibold">
+                            {totalVotes > 0 ? Math.round((option.votes / totalVotes) * 100) : 0}%
+                          </span>
+                        )}
+                      </Button>
+                      {showResults && (
+                        <Progress value={totalVotes > 0 ? (option.votes / totalVotes) * 100 : 0} className="mt-2 h-2" />
+                      )}
+                    </MotionListItem>
+                  ))}
+                </MotionList>
+
+                {showResults && (
+                  <MotionWrapper delay={0.5} className="mt-6 p-4 bg-muted rounded-lg">
+                    <p className="text-sm text-muted-foreground text-center">
+                      <Users className="inline h-4 w-4 mr-1" />
+                      Tổng số phiếu: {totalVotes} | Khám phá câu trả lời chính xác trong phần lý thuyết
+                    </p>
+                  </MotionWrapper>
+                )}
+              </CardContent>
+            </Card>
+          </MotionWrapper>
+        </div>
+      </section>
+
+      {/* Features Overview */}
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <MotionWrapper delay={0.3} className="text-center mb-12">
+            <h2 className="text-3xl font-heading font-black text-foreground mb-4">Nội dung chính</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Tìm hiểu toàn diện về quan điểm Mác-Lênin và thực tiễn Việt Nam
+            </p>
+          </MotionWrapper>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <MotionCard index={0} delay={0.4}>
+              <Card className="hover:shadow-lg transition-shadow h-full">
+                <CardHeader className="text-center">
+                  <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <CardTitle className="text-lg font-heading">Lý thuyết nền tảng</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground text-center">
+                    Nguồn gốc, bản chất và thái độ của Mác-Lênin về tôn giáo
+                  </p>
+                </CardContent>
+              </Card>
+            </MotionCard>
+
+            <MotionCard index={1} delay={0.4}>
+              <Card className="hover:shadow-lg transition-shadow h-full">
+                <CardHeader className="text-center">
+                  <Globe className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <CardTitle className="text-lg font-heading">Chính sách Việt Nam</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground text-center">
+                    Hiến pháp 2013, Luật Tín ngưỡng Tôn giáo 2016 và văn kiện Đảng
+                  </p>
+                </CardContent>
+              </Card>
+            </MotionCard>
+
+            <MotionCard index={2} delay={0.4}>
+              <Card className="hover:shadow-lg transition-shadow h-full">
+                <CardHeader className="text-center">
+                  <Users className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <CardTitle className="text-lg font-heading">Thực tiễn hòa hợp</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground text-center">
+                    Tình hình tôn giáo và các vùng nhạy cảm tại Việt Nam
+                  </p>
+                </CardContent>
+              </Card>
+            </MotionCard>
+
+            <MotionCard index={3} delay={0.4}>
+              <Card className="hover:shadow-lg transition-shadow h-full">
+                <CardHeader className="text-center">
+                  <Target className="h-12 w-12 text-primary mx-auto mb-4" />
+                  <CardTitle className="text-lg font-heading">Giải pháp định hướng</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground text-center">
+                    Hoàn thiện pháp luật, giáo dục và đối thoại liên tôn
+                  </p>
+                </CardContent>
+              </Card>
+            </MotionCard>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="py-16 bg-primary text-primary-foreground">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <MotionWrapper delay={0.6}>
+            <h2 className="text-3xl font-heading font-black mb-4">Sẵn sàng khám phá?</h2>
+            <p className="text-xl mb-8 opacity-90">Bắt đầu hành trình tìm hiểu về tôn giáo trong lý thuyết Mác-Lênin</p>
+            <Link href="/theory">
+              <Button size="lg" variant="secondary" className="text-lg px-8 py-6">
+                Bắt đầu ngay
+                <ChevronRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+          </MotionWrapper>
+        </div>
+      </section>
     </div>
-  );
+  )
 }
