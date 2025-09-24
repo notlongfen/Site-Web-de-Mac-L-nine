@@ -27,6 +27,7 @@ import {
   Scale,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import PageTransition from "@/components/page-transition";
 
 interface TimelineEvent {
@@ -255,6 +256,28 @@ export default function PolicyPage() {
         <section className="bg-gradient-to-r from-primary/10 to-accent/10 py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
+              {/* Images above title */}
+              <div className="flex justify-center items-center gap-8 mb-8">
+                <div className="relative">
+                  <Image
+                    src="https://static.mattran.org.vn/Uploaded/buidoanhung/2021_08_03/3_8_huongdandantoctongiao_RIEL.jpg"
+                    alt="Hướng dẫn dân tộc tôn giáo"
+                    width={530}
+                    height={150}
+                    className="rounded-lg shadow-md object-cover"
+                  />
+                </div>
+                <div className="relative">
+                  <Image
+                    src="https://xdcs.cdnchinhphu.vn/446259493575335936/2025/2/27/dt-1740632213853374599276-0-0-590-944-crop-1740632219225493771900.png"
+                    alt="Chính sách dân tộc tôn giáo"
+                    width={600}
+                    height={150}
+                    className="rounded-lg shadow-md object-cover"
+                  />
+                </div>
+              </div>
+              
               <h1 className="text-4xl font-heading font-black text-foreground mb-4">
                 Chính sách về tôn giáo
               </h1>
