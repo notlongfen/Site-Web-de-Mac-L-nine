@@ -18,9 +18,7 @@ import {
   RotateCcw,
 } from "lucide-react";
 import Link from "next/link";
-import MotionWrapper, {
-  MotionCard,
-} from "@/components/motion-wrapper";
+import MotionWrapper, { MotionCard } from "@/components/motion-wrapper";
 
 interface Step {
   id: number;
@@ -39,46 +37,58 @@ interface MythFact {
 const theorySteps: Step[] = [
   {
     id: 1,
-    title: "Nguồn gốc tôn giáo",
+    title: "Tôn giáo – Hiện tượng xã hội đặc thù",
     content:
-      "Tôn giáo xuất hiện từ ba nguồn gốc chính theo quan điểm Mác-Lênin",
+      "Tôn giáo là một hiện tượng xã hội đặc thù, gắn liền với đời sống tinh thần và lịch sử phát triển của các dân tộc",
     details: [
-      "Nguồn gốc tự nhiên: Con người bất lực trước thiên nhiên, tạo ra niềm tin siêu nhiên",
-      "Nguồn gốc xã hội: Áp bức giai cấp, bất công xã hội khiến người ta tìm đến tôn giáo",
-      "Nguồn gốc nhận thức: Trình độ khoa học thấp, không giải thích được hiện tượng tự nhiên",
+      "Gắn liền với đời sống tinh thần và lịch sử phát triển của các dân tộc",
+      "Trong quá trình quá độ lên CNXH: vừa là nhu cầu tinh thần của một bộ phận nhân dân",
+      "Vừa chứa đựng những yếu tố lịch sử – xã hội có thể bị lợi dụng",
+      "Vấn đề cốt lõi: phải nhận diện đúng và giải quyết phù hợp để vừa tôn trọng tự do tín ngưỡng, vừa đảm bảo ổn định chính trị, đoàn kết dân tộc",
     ],
   },
   {
     id: 2,
-    title: "Bản chất tôn giáo",
+    title: "Nguồn gốc tôn giáo theo Mác-Lênin",
     content:
-      "Tôn giáo là một hình thái ý thức xã hội có hai mặt tích cực và tiêu cực",
+      "Tôn giáo xuất hiện từ ba nguồn gốc cơ bản theo quan điểm Mác-Lênin",
     details: [
-      "Là hình thái ý thức xã hội: Phản ánh điều kiện tồn tại xã hội của con người",
-      "Mặt tích cực: Động viên tinh thần, kết nối cộng đồng, khuyến khích làm thiện",
-      "Mặt tiêu cực: Có thể gây mê muội, phụ thuộc, cản trở tư duy khoa học",
+      "Nguồn gốc tự nhiên: Sự bất lực của con người trước thiên nhiên, không thể giải thích và chế ngự các hiện tượng tự nhiên",
+      "Nguồn gốc xã hội: Áp bức giai cấp, bất công xã hội khiến con người tìm kiếm sự an ủi trong tôn giáo",
+      "Nguồn gốc nhận thức: Trình độ khoa học hạn chế, không thể giải thích được các hiện tượng xã hội và tự nhiên",
     ],
   },
   {
     id: 3,
-    title: "Thái độ với tôn giáo",
-    content:
-      "Mác-Lênin chủ trương tôn trọng tự do tín ngưỡng và phân biệt rõ ràng",
+    title: "Bản chất tôn giáo",
+    content: "",
     details: [
-      "Tôn trọng tự do tín ngưỡng: Mọi người có quyền tin hoặc không tin tôn giáo",
-      "Phân biệt tín ngưỡng với chính trị: Không để tôn giáo can thiệp vào chính trị",
-      "Chống lợi dụng tôn giáo: Đấu tranh với việc lợi dụng tôn giáo cho mục đích xấu",
+      "Là một hình thái ý thức xã hội: Phản ánh hiện thực một cách hư ảo, không trung thực",
+      "Mặt tích cực: Gắn kết cộng đồng, duy trì chuẩn mực đạo đức, có giá trị văn hóa",
+      "Mặt tiêu cực: Bị lợi dụng để duy trì áp bức, thống trị và che đậy mâu thuẫn xã hội",
     ],
   },
   {
     id: 4,
-    title: "Con đường giải quyết",
+    title: "Quan điểm Mác-Lênin: Tôn giáo là 'thuốc phiện'",
     content:
-      "Tôn giáo sẽ tự giảm vai trò chi phối khi điều kiện xã hội thay đổi",
+      "Tư tưởng Mác-Lênin coi tôn giáo là 'thuốc phiện của nhân dân' nhưng không phủ nhận hoàn toàn vai trò, giá trị đạo đức, văn hóa của nó",
     details: [
-      "Nâng cao đời sống: Cải thiện điều kiện kinh tế, xã hội của nhân dân",
-      "Phát triển khoa học: Nâng cao trình độ dân trí, tư duy khoa học",
-      "Phát triển văn hóa: Xây dựng nền văn hóa tiến bộ, nhân văn",
+      "Tôn giáo là 'thuốc phiện' của nhân dân: Vừa an ủi tinh thần, vừa ru ngủ ý thức, kìm hãm nhận thức",
+      "Tôn trọng quyền tự do tín ngưỡng và không tín ngưỡng",
+      "Phân biệt tín ngưỡng chân chính của quần chúng với việc lợi dụng tôn giáo cho mục đích chính trị",
+    ],
+  },
+  {
+    id: 5,
+    title: "Con đường giải quyết: Không 'xóa bỏ cưỡng bức'",
+    content:
+      "Mác-Lênin không chủ trương 'xóa bỏ cưỡng bức' tôn giáo mà cho rằng nó sẽ tự mất đi dần dần",
+    details: [
+      "Phát triển kinh tế: Nâng cao đời sống vật chất của nhân dân",
+      "Nâng cao văn hóa: Xây dựng nền văn hóa tiến bộ, nhân văn",
+      "Phát triển khoa học: Nâng cao trình độ dân trí và tư duy khoa học",
+      "Kết quả: Đời sống vật chất – tinh thần được nâng cao, tôn giáo sẽ tự giảm ảnh hưởng",
     ],
   },
 ];
@@ -87,19 +97,25 @@ const mythsFacts: MythFact[] = [
   {
     id: "myth1",
     myth: "Chủ nghĩa xã hội cấm tôn giáo",
-    fact: "Chủ nghĩa xã hội tôn trọng tự do tín ngưỡng, không cấm tôn giáo mà chỉ không cho phép lợi dụng tôn giáo",
+    fact: "Chủ nghĩa xã hội tôn trọng tự do tín ngưỡng, không cấm tôn giáo mà chỉ không cho phép lợi dụng tôn giáo cho mục đích chính trị",
     isRevealed: false,
   },
   {
     id: "myth2",
     myth: "Mác-Lênin muốn xóa bỏ cưỡng bức tôn giáo",
-    fact: "Mác-Lênin không chủ trương xóa bỏ cưỡng bức mà cho rằng tôn giáo sẽ tự giảm ảnh hưởng khi xã hội phát triển",
+    fact: "Mác-Lênin không chủ trương xóa bỏ cưỡng bức mà cho rằng tôn giáo sẽ tự giảm ảnh hưởng khi điều kiện kinh tế, văn hóa, khoa học phát triển",
     isRevealed: false,
   },
   {
     id: "myth3",
     myth: "Tôn giáo chỉ có tác hại",
-    fact: "Tôn giáo có cả mặt tích cực (kết nối cộng đồng, động viên tinh thần) và tiêu cực (mê muội, phụ thuộc)",
+    fact: "Tôn giáo vừa có giá trị tích cực (gắn kết cộng đồng, duy trì chuẩn mực đạo đức) vừa có mặt tiêu cực (bị lợi dụng để duy trì áp bức, thống trị)",
+    isRevealed: false,
+  },
+  {
+    id: "myth4",
+    myth: "Tôn giáo sẽ tồn tại mãi mãi",
+    fact: "Theo quan điểm Mác-Lênin, tôn giáo sẽ tự mất đi dần dần khi đời sống vật chất - tinh thần của nhân dân được nâng cao",
     isRevealed: false,
   },
 ];
@@ -301,7 +317,7 @@ export default function TheoryPage() {
                 onClick={() => toggleMythFact(item.id)}
               >
                 <CardContent className="p-6">
-                  <div className="flex items-start space-x-4">
+                  <div className="flex items-start space-x-4 pt-6">
                     <div
                       className={`p-2 rounded-full ${
                         item.isRevealed ? "bg-primary" : "bg-destructive"
