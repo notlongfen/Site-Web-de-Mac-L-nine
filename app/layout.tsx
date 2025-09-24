@@ -5,6 +5,7 @@ import { Open_Sans } from "next/font/google"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
+import { Footer } from "@/components/footer"
 import "./globals.css"
 
 const montserrat = Montserrat({
@@ -32,8 +33,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi">
-      <body className={`font-sans ${openSans.variable} ${montserrat.variable} ${GeistMono.variable}`}>
+      <body className={`font-sans ${openSans.variable} ${montserrat.variable} ${GeistMono.variable} min-h-screen flex flex-col`}>
         <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <Footer />
         <Analytics />
       </body>
     </html>

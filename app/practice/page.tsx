@@ -177,7 +177,7 @@ export default function PracticePage() {
 
   return (
     <PageTransition>
-      <div className="min-h-screen bg-background">
+      <div className="flex-1 bg-background">
       <Navigation />
 
       {/* Header */}

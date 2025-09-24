@@ -42,7 +42,7 @@ export function Button({
   const classes = `${getButtonClasses(variant, size)} ${className}`
 
   if (asChild && React.isValidElement(children)) {
-    return React.cloneElement(children, {
+    return React.cloneElement(children as React.ReactElement<any>, {
       ...props,
       className: classes,
     })

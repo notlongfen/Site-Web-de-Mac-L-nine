@@ -23,7 +23,7 @@ import PageTransition from "@/components/page-transition";
 export default function SummaryPage() {
   return (
     <PageTransition>
-      <div className="min-h-screen bg-background">
+      <div className="flex-1 bg-background">
         <Navigation />
 
         {/* Header */}

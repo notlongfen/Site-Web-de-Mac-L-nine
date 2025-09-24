@@ -31,15 +31,10 @@ export default function HomePage() {
   const [pollOptions, setPollOptions] = useState<PollOption[]>([
     {
       id: "yes",
-      text: "Có, Mác-Lênin chủ trương xóa bỏ hoàn toàn tôn giáo",
+      text: "Có",
       votes: 0,
     },
-    { id: "no", text: "Không, Mác-Lênin tôn trọng tự do tín ngưỡng", votes: 0 },
-    {
-      id: "partial",
-      text: "Một phần, tùy thuộc vào điều kiện xã hội",
-      votes: 0,
-    },
+    { id: "no", text: "Không", votes: 0 },
   ]);
 
   useEffect(() => {
@@ -66,7 +61,7 @@ export default function HomePage() {
   const totalVotes = pollOptions.reduce((sum, option) => sum + option.votes, 0);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex-1 bg-background">
       <Navigation />
 
       {/* Hero Section */}
@@ -74,8 +69,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <MotionWrapper className="text-center">
             <h1 className="text-4xl md:text-6xl font-heading font-black text-foreground mb-6 text-balance">
-              Tôn giáo trong Lý thuyết{" "}
-              <span className="text-primary">Mác-Lênin</span>
+              Tôn giáo trong thời kì quá độ lên{" "}
+              <span className="text-primary">chủ nghĩa xã hội</span>
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto text-pretty">
               Khám phá quan điểm của chủ nghĩa Mác-Lênin về tôn giáo và chính
@@ -101,7 +96,7 @@ export default function HomePage() {
                   Khảo sát nhanh - {timeLeft > 0 ? `${timeLeft}s` : "Kết thúc"}
                 </CardTitle>
                 <p className="text-muted-foreground">
-                  Theo bạn, Chủ nghĩa Mác-Lênin có chủ trương xóa bỏ tôn giáo
+                  Theo bạn, Chủ nghĩa Mác–Lênin có chủ trương xóa bỏ tôn giáo
                   không?
                 </p>
               </CardHeader>
@@ -144,13 +139,17 @@ export default function HomePage() {
                 {showResults && (
                   <MotionWrapper
                     delay={0.5}
-                    className="mt-6 p-4 bg-muted rounded-lg"
+                    className="mt-6 p-4 bg-muted rounded-lg text-center"
                   >
-                    <p className="text-sm text-muted-foreground text-center">
+                    <p className="text-sm text-muted-foreground mb-4">
                       <Users className="inline h-4 w-4 mr-1" />
-                      Tổng số phiếu: {totalVotes} | Khám phá câu trả lời chính
-                      xác trong phần lý thuyết
+                      Tổng số phiếu: {totalVotes}
                     </p>
+                    <Link href="/theory">
+                      <Button className="bg-primary hover:bg-primary/90 text-primary-foreground">
+                        Đi tìm câu trả lời chính xác nào!
+                      </Button>
+                    </Link>
                   </MotionWrapper>
                 )}
               </CardContent>
@@ -164,7 +163,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <MotionWrapper delay={0.3} className="text-center mb-12">
             <h2 className="text-3xl font-heading font-black text-foreground mb-4">
-              Nội dung chính
+              Nội Dung Chính
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Tìm hiểu toàn diện về quan điểm Mác-Lênin và thực tiễn Việt Nam
@@ -182,7 +181,7 @@ export default function HomePage() {
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground text-center">
-                    Nguồn gốc, bản chất và thái độ của Mác-Lênin về tôn giáo
+                    Nguồn gốc, bản chất và quan điểm của Mác-Lênin về tôn giáo
                   </p>
                 </CardContent>
               </Card>

@@ -125,7 +125,7 @@ export default function QAPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex-1 bg-background">
       <Navigation />
 
       {/* Header */}

@@ -130,7 +130,7 @@ export default function TheoryPage() {
   const currentStepData = theorySteps.find((step) => step.id === currentStep);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="flex-1 bg-background">
       <Navigation />
 
       {/* Header */}
