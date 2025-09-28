@@ -1,8 +1,5 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
 import { Navigation } from "@/components/navigation";
 import { Button } from "@/components/custom/button";
 import {
@@ -11,536 +8,323 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/custom/card";
-import { Badge } from "@/components/custom/badge";
 import {
   ChevronLeft,
   ChevronRight,
-  Scale,
-  Users,
-  Shield,
-  Download,
-  Clock,
-  Target,
+  // Target,
+  CheckCircle,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
+import PageTransition from "@/components/page-transition";
 
-interface Solution {
+interface QAItem {
   id: string;
-  title: string;
-  description: string;
-  category: "legal" | "social" | "security";
-  priority: "high" | "medium" | "low";
-  timeframe: string;
-  isPlaced: boolean;
+  question: string;
+  imageUrl: string;
+  sections: {
+    title: string;
+    content: string[];
+  }[];
 }
 
-interface Column {
-  id: "legal" | "social" | "security";
-  title: string;
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-  solutions: Solution[];
-}
-
-const availableSolutions: Solution[] = [
+const qaItems: QAItem[] = [
   {
-    id: "complete-law",
-    title: "Hoàn thiện pháp luật tôn giáo",
-    description:
-      "Xây dựng, bổ sung các văn bản pháp luật về tôn giáo phù hợp với thực tiễn",
-    category: "legal",
-    priority: "high",
-    timeframe: "2024-2026",
-    isPlaced: false,
+    id: "cq8-3",
+    question:
+      "Tại sao các tôn giáo khác nhau lại có những ý thức hệ khác nhau, thậm chí đối lập nhau?",
+    imageUrl:
+      "https://i.ytimg.com/vi/HG2HGAxN8Y0/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBUb2T-jtbkH6UODSsS8CKH4kdTaQ",
+    sections: [
+      {
+        title: "Nguyên nhân nguồn gốc:",
+        content: [
+          "Tôn giáo phản ánh điều kiện lịch sử – xã hội, kinh tế – văn hóa khác nhau.",
+          "Mỗi tôn giáo hình thành trong bối cảnh xã hội riêng, từ đó mang ý thức hệ phù hợp với lợi ích giai cấp và dân tộc lúc bấy giờ.",
+        ],
+      },
+      {
+        title: "Sự khác biệt và đối lập:",
+        content: [
+          "Một số tôn giáo mang tính duy tâm, coi trọng thần thánh, siêu nhiên (ví dụ: Thiên Chúa giáo).",
+          "Một số khác thiên về tu dưỡng đạo đức, triết lý nhân sinh (ví dụ: Phật giáo).",
+          "Do sự khác nhau về giáo lý, đối tượng thờ phụng, cách lý giải thế giới, dẫn tới khác biệt thậm chí đối lập.",
+        ],
+      },
+      {
+        title: "Yếu tố giai cấp:",
+        content: [
+          "Trong xã hội có giai cấp, tôn giáo đôi khi bị lợi dụng thành công cụ ý thức hệ, phục vụ cho lợi ích giai cấp thống trị → càng làm nảy sinh mâu thuẫn.",
+        ],
+      },
+    ],
   },
   {
-    id: "education-propaganda",
-    title: "Giáo dục - tuyên truyền chuẩn",
-    description:
-      "Nâng cao nhận thức về chính sách tôn giáo cho cán bộ và nhân dân",
-    category: "social",
-    priority: "high",
-    timeframe: "Liên tục",
-    isPlaced: false,
+    id: "cq8-4",
+    question:
+      "Chủ nghĩa Mác – Lênin là chủ nghĩa duy vật biện chứng, vậy có phải là sẽ xóa bỏ hoàn toàn tôn giáo hay không?",
+    imageUrl:
+      "https://thichhohap.com/wp-content/uploads/2024/02/On-tap-mon-chu-nghia-Mac-%E2%80%93-Lenin-4-1024x764.jpg",
+    sections: [
+      {
+        title: "Không chủ trương xóa bỏ cưỡng bức.",
+        content: [],
+      },
+      {
+        title: "Chủ nghĩa Mác – Lênin khẳng định:",
+        content: [
+          "Tôn giáo có nguồn gốc khách quan, nên còn tồn tại khi những điều kiện xã hội (bất công, nghèo khổ, hạn chế nhận thức) còn tồn tại.",
+          "Quá trình xây dựng CNXH phải tôn trọng quyền tự do tín ngưỡng và không tín ngưỡng.",
+        ],
+      },
+      {
+        title: "Con đường giải quyết:",
+        content: [
+          "Nâng cao đời sống vật chất, phát triển khoa học, xây dựng văn hóa mới.",
+          "Khi những điều kiện xã hội thay đổi, tôn giáo sẽ tự mất đi vai trò chi phối, chứ không phải bị xóa bỏ bằng mệnh lệnh hành chính.",
+          "Như vậy, CN Mác – Lênin không phủ nhận hoàn toàn tôn giáo, mà hướng tới việc làm nó tự tiêu vong theo sự phát triển của xã hội mới.",
+        ],
+      },
+    ],
   },
   {
-    id: "interfaith-dialogue",
-    title: "Đối thoại liên tôn",
-    description:
-      "Tăng cường đối thoại, hợp tác giữa các tôn giáo và với Nhà nước",
-    category: "social",
-    priority: "medium",
-    timeframe: "Thường xuyên",
-    isPlaced: false,
-  },
-  {
-    id: "promote-clergy",
-    title: "Phát huy chức sắc/tín đồ",
-    description: "Khuyến khích chức sắc, tín đồ tham gia xây dựng đất nước",
-    category: "social",
-    priority: "medium",
-    timeframe: "Dài hạn",
-    isPlaced: false,
-  },
-  {
-    id: "security-prevention",
-    title: "Tăng cường an ninh phòng ngừa",
-    description: "Ngăn chặn lợi dụng tôn giáo để chống phá Đảng, Nhà nước",
-    category: "security",
-    priority: "high",
-    timeframe: "Thường xuyên",
-    isPlaced: false,
-  },
-  {
-    id: "connect-sdg",
-    title: "Kết nối với mục tiêu phát triển bền vững",
-    description:
-      "Liên kết hoạt động tôn giáo với các mục tiêu phát triển bền vững",
-    category: "social",
-    priority: "medium",
-    timeframe: "2024-2030",
-    isPlaced: false,
-  },
-  {
-    id: "capacity-building",
-    title: "Nâng cao năng lực cán bộ",
-    description: "Đào tạo, bồi dưỡng cán bộ làm công tác tôn giáo",
-    category: "legal",
-    priority: "high",
-    timeframe: "2024-2025",
-    isPlaced: false,
-  },
-  {
-    id: "monitor-system",
-    title: "Hệ thống giám sát hiệu quả",
-    description: "Xây dựng hệ thống giám sát, đánh giá hoạt động tôn giáo",
-    category: "security",
-    priority: "medium",
-    timeframe: "2024-2026",
-    isPlaced: false,
+    id: "cq8-5",
+    question:
+      "Việt Nam là quốc gia đa tôn giáo, vậy đã từng có chiến tranh tôn giáo ở Việt Nam hay không? Tại sao?",
+    imageUrl:
+      "https://media.vov.vn/sites/default/files/styles/large/public/2022-10/vesak.jpg",
+    sections: [
+      {
+        title: "Thực tiễn lịch sử:",
+        content: [
+          "Việt Nam chưa từng có chiến tranh tôn giáo quy mô lớn như ở châu Âu hay Trung Đông.",
+        ],
+      },
+      {
+        title: "Nguyên nhân:",
+        content: [],
+      },
+      {
+        title: "Truyền thống văn hóa – tín ngưỡng:",
+        content: [
+          "Người Việt coi trọng thờ cúng tổ tiên, anh hùng dân tộc, đặt cộng đồng dân tộc lên trên sự khác biệt tôn giáo.",
+          "Khi các tôn giáo ngoại nhập (Phật giáo, Nho giáo, Đạo giáo, Công giáo, Hồi giáo…) du nhập, chúng đều phải thích ứng, hòa nhập với văn hóa bản địa.",
+        ],
+      },
+      {
+        title: "Chính sách và ý thức:",
+        content: [
+          "Chính sách khoan dung của các triều đại phong kiến và sau này là Nhà nước XHCN: tạo điều kiện cho các tôn giáo cùng tồn tại, hạn chế xung đột.",
+          "Ý thức dân tộc: Trong bối cảnh đất nước thường xuyên bị ngoại xâm, các tôn giáo đều đồng hành cùng dân tộc → đoàn kết chống giặc ngoại xâm.",
+        ],
+      },
+      {
+        title: "Ngoại lệ:",
+        content: [
+          'Thời kỳ thực dân Pháp và đế quốc Mỹ, tôn giáo từng bị lợi dụng làm công cụ chia rẽ dân tộc, nhưng đó là xung đột chính trị – thực dân, không phải bản chất là "chiến tranh tôn giáo".',
+          "Do vậy, Việt Nam là quốc gia đa tôn giáo nhưng vẫn giữ được hòa hợp, nhờ nền tảng văn hóa dân tộc, chính sách bao dung, và truyền thống đoàn kết toàn dân.",
+        ],
+      },
+    ],
   },
 ];
 
 export default function SolutionsPage() {
-  const [solutions, setSolutions] = useState<Solution[]>(availableSolutions);
-  const [discussionTime, setDiscussionTime] = useState(30);
-  const [isDiscussionActive, setIsDiscussionActive] = useState(false);
-
-  const [columns, setColumns] = useState<Column[]>([
-    {
-      id: "legal",
-      title: "Pháp lý",
-      icon: Scale,
-      color: "bg-primary",
-      solutions: [],
-    },
-    {
-      id: "social",
-      title: "Xã hội",
-      icon: Users,
-      color: "bg-accent",
-      solutions: [],
-    },
-    {
-      id: "security",
-      title: "An ninh",
-      icon: Shield,
-      color: "bg-chart-3",
-      solutions: [],
-    },
-  ]);
-
-  const handleDragStart = (e: React.DragEvent, solutionId: string) => {
-    e.dataTransfer.setData("text/plain", solutionId);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-  };
-
-  const handleDrop = (
-    e: React.DragEvent,
-    columnId: "legal" | "social" | "security"
-  ) => {
-    e.preventDefault();
-    const solutionId = e.dataTransfer.getData("text/plain");
-    const solution = solutions.find((s) => s.id === solutionId);
-
-    if (solution && !solution.isPlaced) {
-      // Move solution to column
-      setSolutions((prev) =>
-        prev.map((s) => (s.id === solutionId ? { ...s, isPlaced: true } : s))
-      );
-
-      setColumns((prev) =>
-        prev.map((col) =>
-          col.id === columnId
-            ? { ...col, solutions: [...col.solutions, solution] }
-            : col
-        )
-      );
-    }
-  };
-
-  const removeSolutionFromColumn = (
-    solutionId: string,
-    columnId: "legal" | "social" | "security"
-  ) => {
-    // Remove from column
-    setColumns((prev) =>
-      prev.map((col) =>
-        col.id === columnId
-          ? {
-              ...col,
-              solutions: col.solutions.filter((s) => s.id !== solutionId),
-            }
-          : col
-      )
-    );
-
-    // Make available again
-    setSolutions((prev) =>
-      prev.map((s) => (s.id === solutionId ? { ...s, isPlaced: false } : s))
-    );
-  };
-
-  const startDiscussion = () => {
-    setIsDiscussionActive(true);
-    const timer = setInterval(() => {
-      setDiscussionTime((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          setIsDiscussionActive(false);
-          return 30;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-  };
-
-  const generatePDF = () => {
-    // const allPlacedSolutions = columns.flatMap((col) => col.solutions);
-    const pdfContent = {
-      legal: columns.find((c) => c.id === "legal")?.solutions || [],
-      social: columns.find((c) => c.id === "social")?.solutions || [],
-      security: columns.find((c) => c.id === "security")?.solutions || [],
-    };
-
-    // Simulate PDF generation
-    const blob = new Blob([JSON.stringify(pdfContent, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "giai-phap-ton-giao.json";
-    a.click();
-    URL.revokeObjectURL(url);
-  };
-
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case "high":
-        return "bg-destructive";
-      case "medium":
-        return "bg-accent";
-      case "low":
-        return "bg-muted";
-      default:
-        return "bg-muted";
-    }
-  };
-
-  const getPriorityLabel = (priority: string) => {
-    switch (priority) {
-      case "high":
-        return "Cao";
-      case "medium":
-        return "Trung bình";
-      case "low":
-        return "Thấp";
-      default:
-        return "Không xác định";
-    }
-  };
-
   return (
-    <div className="flex-1 bg-background">
-      <Navigation />
+    <PageTransition>
+      <div className="flex-1 bg-background">
+        <Navigation />
 
-      {/* Header */}
-      <section className="bg-gradient-to-r from-primary/10 to-accent/10 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl font-heading font-black text-foreground mb-4">
-              Giải pháp định hướng
-            </h1>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Workshop tương tác: Sắp xếp và thảo luận các giải pháp cho công
-              tác tôn giáo
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Workshop Controls */}
-      <section className="py-8 bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex items-center space-x-4">
-              <Button
-                onClick={startDiscussion}
-                disabled={isDiscussionActive}
-                className="flex items-center space-x-2"
-              >
-                <Clock className="h-4 w-4" />
-                <span>
-                  {isDiscussionActive
-                    ? `Thảo luận: ${discussionTime}s`
-                    : "Bắt đầu thảo luận"}
-                </span>
-              </Button>
-
-              <Badge variant={isDiscussionActive ? "default" : "secondary"}>
-                {isDiscussionActive ? "Đang thảo luận" : "Sẵn sàng"}
-              </Badge>
+        {/* Header */}
+        <section className="bg-gradient-to-r from-primary/10 to-accent/10 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center">
+              <h1 className="text-4xl font-heading font-black text-foreground mb-4">
+                Vận dụng
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+                Vận dụng các nội dung lý thuyết và thực tiễn, giải đáp các câu
+                hỏi liên quan đến vấn đề tôn giáo
+              </p>
             </div>
-
-            <Button onClick={generatePDF} variant="outline">
-              <Download className="h-4 w-4 mr-2" />
-              Xuất PDF
-            </Button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Available Solutions */}
-      <section className="py-8">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-foreground mb-6">
-            Giải pháp có sẵn
-          </h2>
-          <p className="text-muted-foreground mb-6">
-            Kéo và thả các giải pháp vào cột phù hợp bên dưới
-          </p>
+        {/* Q&A Section */}
+        <section className="py-12">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-heading font-black text-center text-foreground mb-12">
+              Câu hỏi và trả lời
+            </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {solutions
-              .filter((s) => !s.isPlaced)
-              .map((solution) => (
-                <Card
-                  key={solution.id}
-                  className="cursor-move hover:shadow-lg transition-shadow"
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, solution.id)}
-                >
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <Badge
-                        className={`${getPriorityColor(
-                          solution.priority
-                        )} text-white`}
-                      >
-                        {getPriorityLabel(solution.priority)}
-                      </Badge>
-                      <Badge variant="outline" className="text-xs">
-                        {solution.timeframe}
-                      </Badge>
+            <div className="space-y-8">
+              {qaItems.map((item, index) => (
+                <Card key={item.id} className="overflow-hidden">
+                  <CardHeader className="bg-primary/5">
+                    <CardTitle className="text-lg font-heading text-foreground">
+                      CQ8.{index + 3}: {item.question}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6 bg-primary/5">
+                    <div className="grid lg:grid-cols-3 gap-6">
+                      {/* Image */}
+                      <div className="lg:col-span-1">
+                        <div className="relative aspect-video rounded-lg overflow-hidden bg-muted">
+                          <Image
+                            src={item.imageUrl}
+                            alt={`Hình minh họa cho câu hỏi ${index + 3}`}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Content */}
+                      <div className="lg:col-span-2 space-y-4">
+                        {item.sections.map((section, sectionIndex) => (
+                          <div key={sectionIndex}>
+                            <h4 className="font-semibold text-foreground mb-2">
+                              {section.title}
+                            </h4>
+                            {section.content.length > 0 && (
+                              <ul className="space-y-2">
+                                {section.content.map((point, pointIndex) => (
+                                  <li
+                                    key={pointIndex}
+                                    className="flex items-start space-x-2"
+                                  >
+                                    <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                                    <span className="text-sm text-muted-foreground">
+                                      {point}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        ))}
+                      </div>
                     </div>
-                    <h3 className="font-heading font-bold text-sm text-foreground mb-2">
-                      {solution.title}
-                    </h3>
-                    <p className="text-xs text-muted-foreground">
-                      {solution.description}
-                    </p>
                   </CardContent>
                 </Card>
               ))}
+            </div>
+
+            {/* <div className="text-center mt-8">
+            <Link href="/qa">
+              <Button size="lg" className="flex items-center space-x-2">
+                <Target className="h-5 w-5" />
+                <span>Xem thêm câu hỏi khác</span>
+              </Button>
+            </Link>
+          </div> */}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Kanban Board */}
-      <section className="py-12 bg-card">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-foreground mb-6">
-            Bảng phân loại giải pháp
-          </h2>
-
-          <div className="grid lg:grid-cols-3 gap-6">
-            {columns.map((column) => (
-              <div key={column.id}>
-                <Card className="min-h-96">
-                  <CardHeader className={`${column.color} text-white`}>
-                    <CardTitle className="flex items-center space-x-2">
-                      <column.icon className="h-5 w-5" />
-                      <span>{column.title}</span>
-                      <Badge variant="secondary" className="ml-auto">
-                        {column.solutions.length}
-                      </Badge>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent
-                    className="p-4 min-h-80"
-                    onDragOver={handleDragOver}
-                    onDrop={(e) => handleDrop(e, column.id)}
-                  >
-                    <div className="space-y-3">
-                      {column.solutions.map((solution) => (
-                        <Card key={solution.id} className="relative group">
-                          <CardContent className="p-3">
-                            <button
-                              onClick={() =>
-                                removeSolutionFromColumn(solution.id, column.id)
-                              }
-                              className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
-                            >
-                              ×
-                            </button>
-                            <div className="flex items-center justify-between mb-2">
-                              <Badge
-                                className={`${getPriorityColor(
-                                  solution.priority
-                                )} text-white text-xs`}
-                              >
-                                {getPriorityLabel(solution.priority)}
-                              </Badge>
-                            </div>
-                            <h4 className="font-semibold text-sm text-foreground mb-1">
-                              {solution.title}
-                            </h4>
-                            <p className="text-xs text-muted-foreground">
-                              {solution.description}
-                            </p>
-                            <div className="mt-2">
-                              <Badge variant="outline" className="text-xs">
-                                {solution.timeframe}
-                              </Badge>
-                            </div>
-                          </CardContent>
-                        </Card>
-                      ))}
-
-                      {column.solutions.length === 0 && (
-                        <div className="text-center py-8 text-muted-foreground">
-                          <Target className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                          <p className="text-sm">Kéo giải pháp vào đây</p>
-                        </div>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            ))}
+        {/* Exploration Section */}
+        <section className="py-12 bg-card">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl font-heading font-black text-center text-foreground mb-8">
+              Khám phá
+            </h2>
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg p-6">
+              <iframe
+                title="Tín đồ tôn giáo ở Việt Nam"
+                aria-label="Map"
+                id="datawrapper-chart-DTt34"
+                src="https://datawrapper.dwcdn.net/DTt34/1/"
+                scrolling="no"
+                frameBorder="0"
+                style={{
+                  width: "100%",
+                  minWidth: "100%",
+                  border: "none",
+                }}
+                height="851"
+                data-external="1"
+              />
+              <script
+                type="text/javascript"
+                dangerouslySetInnerHTML={{
+                  __html: `!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();`,
+                }}
+              />
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Summary Statistics */}
-      <section className="py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-center text-foreground mb-8">
-            Thống kê phân loại
-          </h2>
+        {/* Key Principles */}
+        <section className="py-12 bg-card">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-2xl font-heading font-black text-center text-foreground mb-8">
+              Nguyên tắc chỉ đạo
+            </h2>
 
-          <div className="grid md:grid-cols-4 gap-6">
-            <Card className="text-center">
-              <CardContent className="pt-6">
-                <div className="text-3xl font-black text-primary mb-2">
-                  {columns.reduce((sum, col) => sum + col.solutions.length, 0)}
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Tổng giải pháp đã phân loại
-                </p>
-              </CardContent>
-            </Card>
-
-            {columns.map((column) => (
-              <Card key={column.id} className="text-center">
+            <div className="grid md:grid-cols-3 gap-6">
+              <Card className="text-center">
                 <CardContent className="pt-6">
-                  <div className="text-3xl font-black text-primary mb-2">
-                    {column.solutions.length}
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-black text-primary">
+                      Tôn trọng
+                    </span>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    {column.title}
+                    Tôn trọng quyền tự do tín ngưỡng, tôn giáo của mọi công dân
                   </p>
                 </CardContent>
               </Card>
-            ))}
+
+              <Card className="text-center">
+                <CardContent className="pt-6">
+                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-black text-accent">
+                      Phát huy
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Phát huy những giá trị tích cực của tôn giáo trong đời sống
+                    xã hội
+                  </p>
+                </CardContent>
+              </Card>
+
+              <Card className="text-center">
+                <CardContent className="pt-6">
+                  <div className="w-16 h-16 bg-chart-3/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span className="text-2xl font-black text-chart-3">
+                      Đấu tranh
+                    </span>
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Đấu tranh chống lợi dụng tôn giáo để chống phá Đảng, Nhà
+                    nước
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Key Principles */}
-      <section className="py-12 bg-card">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-heading font-black text-center text-foreground mb-8">
-            Nguyên tắc chỉ đạo
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            <Card className="text-center">
-              <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-black text-primary">
-                    Tôn trọng
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Tôn trọng quyền tự do tín ngưỡng, tôn giáo của mọi công dân
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-black text-accent">
-                    Phát huy
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Phát huy những giá trị tích cực của tôn giáo trong đời sống xã
-                  hội
-                </p>
-              </CardContent>
-            </Card>
-
-            <Card className="text-center">
-              <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-chart-3/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <span className="text-2xl font-black text-chart-3">
-                    Đấu tranh
-                  </span>
-                </div>
-                <p className="text-sm text-muted-foreground">
-                  Đấu tranh chống lợi dụng tôn giáo để chống phá Đảng, Nhà nước
-                </p>
-              </CardContent>
-            </Card>
+        {/* Navigation */}
+        <section className="py-8">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between">
+              <Link href="/practice">
+                <Button variant="outline">
+                  <ChevronLeft className="h-4 w-4 mr-2" />
+                  Thực tiễn hòa hợp
+                </Button>
+              </Link>
+              <Link href="/qa">
+                <Button>
+                  Hỏi đáp
+                  <ChevronRight className="h-4 w-4 ml-2" />
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Navigation */}
-      <section className="py-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between">
-            <Link href="/practice">
-              <Button variant="outline">
-                <ChevronLeft className="h-4 w-4 mr-2" />
-                Thực tiễn hòa hợp
-              </Button>
-            </Link>
-            <Link href="/qa">
-              <Button>
-                Hỏi đáp
-                <ChevronRight className="h-4 w-4 ml-2" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </PageTransition>
   );
 }
